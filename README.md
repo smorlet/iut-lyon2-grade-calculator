@@ -1,2 +1,2 @@
-# calcul-moyenne-IUT-Lyon2
-Programme visant à simplifier le calcul des moyennes d'UE pour les élèves de l'IUT Lumière Lyon 2. Le programme se connecte à l’extranet de l’IUT à l’aide de vos identifiants afin de récupérer automatiquement les notes nécessaires au calcul.
+# iut-lyon2-grade-calculator
+Program designed to simplify the calculation of UE averages for students of IUT Lumière Lyon 2. The program connects to the IUT extranet using the student's credentials to automatically retrieve the grades required for the calculation.
