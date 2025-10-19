@@ -1,0 +1,26 @@
+📦 moyenne_ue/
+│
+├── main.py                       # point d’entrée de l’application
+│
+├── gui/
+│   ├── __init__.py
+│   ├── app.py                    # fenêtre principale (root) + gestion de navigation
+│   ├── frames_login.py           # page de connexion
+│   ├── frames_result.py          # page des résultats
+│   ├── styles.py                 # polices, couleurs, thèmes
+│
+├── selenium_part/
+│   ├── __init__.py
+│   ├── driver_setup.py           # config Selenium
+│   ├── login_flow.py             # fonction connexion()
+│   ├── scraper.py                # fonction collect_grades()
+│   └── utils_selenium.py         # fonction switch_sem(), etc.
+│
+├── core/
+│   ├── __init__.py
+│   ├── calculs.py                # bonus sport, moyenne pondérée
+│   ├── config.py                 # URL, timeouts, options Selenium
+│
+└── utils/
+    ├── __init__.py
+    ├── helpers.py                # toggle_visibility, clear_frame, etc.
