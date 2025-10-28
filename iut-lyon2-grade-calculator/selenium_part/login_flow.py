@@ -1,8 +1,65 @@
+from .driver_setup import driver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.webdriver.support import expected_conditions as EC
 
+#lien de base : https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi
+#compte verrouillé : https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=account%2Dlocked%2Dout
+#mdp faux : https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=failed
+#trop d'utilisateur (extranet inaccessible) : https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=too%2Dmany
 
+#faire un dico clé valeur -> url chiffre/mot clé
+#renvoyer la valeur en fonction de l'url recu (return)
+#faire un match case dans frame login pour configure le feedback en consequence (et appeler autre fonction ?)
+#driver.current_url
+
+connection_links = {
+    "https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi": "base",
+    "https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=account%2Dlocked%2Dout": "locked acc",
+    "https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=failed": "invalid psw",
+    "https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=too%2Dmany": "too many users",
+    "https://iut-extranet.univ-lyon2.fr/dana/user/#": "valid psw",
+    "https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=user%2Dconfirm": "valid psw 2",
+    "error" : "error"
+}
+
+def connection_works(u_field, p_field) :
+
+    username = u_field.get()
+    password = p_field.get()
+
+    username_field_html = driver.find_element(By.ID,"username")
+    username_field_html.send_keys(username)
+    password_field_html = driver.find_element(By.ID,"password")
+    password_field_html.send_keys(password)
+
+    driver.find_element(By.ID, "btnSubmit_6").click()
+
+    try:
+        WebDriverWait(driver, 5).until(lambda d: d.execute_script("return document.readyState") == "complete")
+        key = driver.current_url
+    except TimeoutException:
+        key = "error"
+
+    return connection_links[key]
+    #renvoie encore base alors que faut pas
+
+    try :
+        
+        WebDriverWait(driver, 1).until(EC.presence_of_element_located((By.ID, "table_LoginPage_4")))        
+        message = WebDriverWait(driver, 1).until(EC.presence_of_element_located((By.CLASS_NAME, "brcd-snackbar__message"))).text
+        
+        if message == "Nom d'utilisateur ou mot de passe non valide. Entrez de nouveau vos informations d'utilisateur." :  
+            return False
+        raise TimeoutException
+        
+    except (TimeoutException,NoSuchElementException):
+        return True
+"""
 def connexion(u_field, p_field, fb) :
     
-    fb.configure(text="Chargement...", text_color = "white")
+    fb.configure(text="Chargement...")
     root.update_idletasks() 
     
     username = u_field.get()
@@ -121,4 +178,4 @@ def path_connexion():
     except TimeoutException:
          return True    
      
-    return False
+    return False"""
