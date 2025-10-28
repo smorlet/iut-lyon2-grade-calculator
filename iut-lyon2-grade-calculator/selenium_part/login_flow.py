@@ -4,23 +4,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 
-#lien de base : https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi
-#compte verrouillé : https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=account%2Dlocked%2Dout
-#mdp faux : https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=failed
-#trop d'utilisateur (extranet inaccessible) : https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=too%2Dmany
-
-#faire un dico clé valeur -> url chiffre/mot clé
-#renvoyer la valeur en fonction de l'url recu (return)
-#faire un match case dans frame login pour configure le feedback en consequence (et appeler autre fonction ?)
-#driver.current_url
-
 connection_links = {
     "https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi": "base",
-    "https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=account%2Dlocked%2Dout": "locked acc",
     "https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=failed": "invalid psw",
+    "https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=account%2Dlocked%2Dout": "locked acc",
     "https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=too%2Dmany": "too many users",
     "https://iut-extranet.univ-lyon2.fr/dana/user/#": "valid psw",
-    "https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=user%2Dconfirm": "valid psw 2",
+    "https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=user%2Dconfirm": "valid psw / other sess",
     "error" : "error"
 }
 
@@ -35,27 +25,18 @@ def connection_works(u_field, p_field) :
     password_field_html.send_keys(password)
 
     driver.find_element(By.ID, "btnSubmit_6").click()
-
+    
     try:
         WebDriverWait(driver, 5).until(lambda d: d.execute_script("return document.readyState") == "complete")
         key = driver.current_url
+
     except TimeoutException:
         key = "error"
-
+    print(key)
     return connection_links[key]
-    #renvoie encore base alors que faut pas
 
-    try :
-        
-        WebDriverWait(driver, 1).until(EC.presence_of_element_located((By.ID, "table_LoginPage_4")))        
-        message = WebDriverWait(driver, 1).until(EC.presence_of_element_located((By.CLASS_NAME, "brcd-snackbar__message"))).text
-        
-        if message == "Nom d'utilisateur ou mot de passe non valide. Entrez de nouveau vos informations d'utilisateur." :  
-            return False
-        raise TimeoutException
-        
-    except (TimeoutException,NoSuchElementException):
-        return True
+#rajouter la logique des mdp et user déjà testé
+
 """
 def connexion(u_field, p_field, fb) :
     

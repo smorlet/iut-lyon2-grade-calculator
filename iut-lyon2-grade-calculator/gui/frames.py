@@ -8,7 +8,7 @@ class Login(ctk.CTkFrame):
         super().__init__(root)
         
         #widget reused later
-        self.feedback = ctk.CTkLabel(self, text="", font=font_text, text_color = "white")
+        self.feedback = ctk.CTkLabel(self, text="", font=font_text)
         self.username_field = ctk.CTkEntry(self, placeholder_text= "Nom d'utilisateur", width=400, height = 40)
         self.password_field = ctk.CTkEntry(self, placeholder_text= "Mot de passe", width=400, height = 40, show="*")
         self.display_button = ctk.CTkButton(self, text="Afficher", font=font_text,  width=100, height=30, corner_radius=10,command=lambda:self.toggle_visibility())
@@ -42,15 +42,31 @@ class Login(ctk.CTkFrame):
             self.display_button.configure(text="Afficher")
     
     def try_connexion(self, root) :
-        self.feedback.configure(text="Chargement...")
+        self.feedback.configure(text="Chargement...", text_color="white")
         root.update_idletasks()
-        print(connection_works(self.username_field, self.password_field))
-        """
-        if connection_works(self.username_field, self.password_field) :
-            self.feedback.configure(text="Nom d'utilisateur et mot de passe valide. Veuillez patienter...")
-        else :
-            self.feedback.configure(text="Nom d'utilisateur et mot de passe non valide. Entrez de nouveau vos informations d'utilisateur.")
-            """
+        match connection_works(self.username_field, self.password_field) :
+            case "invalid psw":
+                self.feedback.configure(text="Nom d'utilisateur et mot de passe non valide. Entrez de nouveau vos informations d'utilisateur.", text_color="red")
+                self.password_field.delete(0,"end")
+            case "locked acc":
+                self.feedback.configure(text="Trop de tentative échoué, compte vérouillé. Veuillez réessayer ultérieurement.", text_color="grey")
+                self.username_field.delete(0,"end")
+                self.password_field.delete(0,"end")
+            case "too many users":
+                self.feedback.configure(text="Nombre d'utilisateurs ayant simultanément ouvert une session dans le système trop élevé. Veuillez réessayer ultérieurement.", text_color="grey")
+                self.username_field.delete(0,"end")
+                self.password_field.delete(0,"end")
+            case "valid psw" | "valid psw / other sess":
+                self.feedback.configure(text="Nom d'utilisateur et mot de passe valide. Veuillez patienter...", text_color="white")
+                self.show_averages()
+            case "error":
+                self.feedback.configure(text="Une erreur est survenue. Veuillez réessayer ultérieurement.", text_color="grey")
+
+    def show_averages(self):
+        pass
+
+    def frame_switch(self):
+        pass
 
 class Result(ctk.CTkFrame):
 
