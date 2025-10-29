@@ -10,7 +10,7 @@ connection_links = {
     "https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=account%2Dlocked%2Dout": "locked acc",
     "https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=too%2Dmany": "too many users",
     "https://iut-extranet.univ-lyon2.fr/dana/user/#": "valid psw",
-    "https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=user%2Dconfirm": "valid psw / other sess",
+    "https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi?p=user%2Dconfirm": "valid psw but other sess",
     "error" : "error"
 }
 
@@ -36,6 +36,17 @@ def connection_works(u_field, p_field) :
     return connection_links[key]
 
 #rajouter la logique des mdp et user déjà testé
+
+def path_connection(status):
+    if status == "valid psw but other sess":
+        try :
+            WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "btnContinue"))).click()
+        except TimeoutException:
+            return True
+    
+    
+    pass
+
 
 """
 def connexion(u_field, p_field, fb) :

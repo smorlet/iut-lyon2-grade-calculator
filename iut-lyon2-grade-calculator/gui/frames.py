@@ -44,7 +44,8 @@ class Login(ctk.CTkFrame):
     def try_connexion(self, root) :
         self.feedback.configure(text="Chargement...", text_color="white")
         root.update_idletasks()
-        match connection_works(self.username_field, self.password_field) :
+        status = connection_works(self.username_field, self.password_field)
+        match status :
             case "invalid psw":
                 self.feedback.configure(text="Nom d'utilisateur et mot de passe non valide. Entrez de nouveau vos informations d'utilisateur.", text_color="red")
                 self.password_field.delete(0,"end")
@@ -56,13 +57,14 @@ class Login(ctk.CTkFrame):
                 self.feedback.configure(text="Nombre d'utilisateurs ayant simultanément ouvert une session dans le système trop élevé. Veuillez réessayer ultérieurement.", text_color="grey")
                 self.username_field.delete(0,"end")
                 self.password_field.delete(0,"end")
-            case "valid psw" | "valid psw / other sess":
+            case "valid psw" | "valid psw but other sess":
                 self.feedback.configure(text="Nom d'utilisateur et mot de passe valide. Veuillez patienter...", text_color="white")
-                self.show_averages()
+                self.show_averages(status)
             case "error":
                 self.feedback.configure(text="Une erreur est survenue. Veuillez réessayer ultérieurement.", text_color="grey")
 
-    def show_averages(self):
+    def show_averages(self, status):
+        
         pass
 
     def frame_switch(self):
