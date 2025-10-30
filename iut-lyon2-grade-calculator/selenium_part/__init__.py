@@ -1,1 +1,1 @@
-from .login_flow import connection_works
+from .login_flow import connection_works, path_connection

@@ -1,6 +1,6 @@
 import customtkinter as ctk
 from .styles import font_text
-from selenium_part import connection_works
+from selenium_part import connection_works, path_connection
 
 class Login(ctk.CTkFrame):
 
@@ -64,8 +64,10 @@ class Login(ctk.CTkFrame):
                 self.feedback.configure(text="Une erreur est survenue. Veuillez réessayer ultérieurement.", text_color="grey")
 
     def show_averages(self, status):
-        
-        pass
+        if path_connection(status):
+            pass
+        else :
+            self.feedback.configure(text="Désolé, nous n'avons pas pu accéder à vos notes. Veuillez relancer réessayer ultérieurement.", text_color="grey")
 
     def frame_switch(self):
         pass
