@@ -3,12 +3,17 @@ from .frames import Login, Result
 
 class App(ctk.CTk) :
     
-    def __init__(self) :
+    def __init__(self):
         #main setup
         super().__init__()
         self.title("Calcul moyenne IUT Lumière Lyon 2")
         self.geometry("900x600")
         self.minsize(900,600)
         
-        #frame
-        self.menu = Login(self)
+        self.current_frame = Login(self)
+        self.current_frame.pack(pady=30, padx=40, fill="both", expand=True)
+        
+    def show_frame(self, frame):
+        self.current_frame.pack_forget()
+        self.current_frame = frame
+        self.current_frame.pack(pady=30, padx=40, fill="both", expand=True)

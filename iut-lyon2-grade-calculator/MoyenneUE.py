@@ -359,12 +359,12 @@ def collect_grades() :
                     
                     matiere = rename_matiere(class_matiere[i].text,UE)
                     
-                    """
+                    
                     if matiere.startswith("R") :            #rename "propre" de la matière
                         matiere = UE + " " + matiere[8:]    #"UE + {matière}" pour différencier les matières venant affecter les moyennes de chaque UE
                     elif matiere.startswith("SAÉ") :
                         matiere = UE + " " + matiere[:3] + matiere[8:]
-                    """
+                    
 
                     coeff = class_coeff[i].text
                     coeff = float(coeff.replace("coefficient : ", "").replace(",","."))  #extrait la note en elle même
