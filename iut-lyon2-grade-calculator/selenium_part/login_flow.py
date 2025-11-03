@@ -35,8 +35,6 @@ def connection_works(u_field, p_field) :
 
     return connection_links[key]
 
-#rajouter la logique des mdp et user déjà testé
-
 def path_connection(status):
 
     if status == "valid psw but other sess":

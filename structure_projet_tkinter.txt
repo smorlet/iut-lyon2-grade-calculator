@@ -19,8 +19,3 @@
 ├── core/
 │   ├── __init__.py
 │   ├── calculs.py                # bonus sport, moyenne pondérée
-│   ├── config.py                 # URL, timeouts, options Selenium
-│
-└── utils/
-    ├── __init__.py
-    ├── helpers.py                # toggle_visibility, clear_frame, etc.
