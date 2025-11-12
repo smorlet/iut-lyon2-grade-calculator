@@ -1,6 +1,7 @@
 from .driver_setup import driver
 from selenium.webdriver.common.by import By
 from collections import defaultdict
+from core import calcul_average
 
 def collect_grades():
 
@@ -20,9 +21,6 @@ def collect_grades():
         subjects = driver.find_elements(By.XPATH, f'//span[contains(text(), "{UE_info[UE]["Title"]}")]/ancestor::div[@class="libelle-ue"]/following-sibling::div[@class="pt-2"]//div[@class="row p-1 bg-dark text-white ms-0 me-0"]//div[contains(@class, "col-md")]/span')
         coefficients = driver.find_elements(By.XPATH, f'//span[contains(text(), "{UE_info[UE]["Title"]}")]/ancestor::div[@class="libelle-ue"]/following-sibling::div[@class="pt-2"]//div[@class="row p-1 bg-dark text-white ms-0 me-0"]//div[contains(@class, "col-md-2")]//small[contains(text(), "coefficient")]')
 
-        total_grades = 0
-        total_coefficients = 0
-
         for i in range(len(grades)):
             
             grade = extract_grade(grades[i].text)
@@ -33,16 +31,11 @@ def collect_grades():
                 UE_info[UE]["Subjects"][subject]["Grade"] = grade
                 UE_info[UE]["Subjects"][subject]["Coefficient"] = coefficient
 
-                total_grades += grade*coefficient
-                total_coefficients += coefficient
-
-        if total_coefficients>0:
-            average = round(total_grades/total_coefficients, 2)
-            UE_info[UE]["Average"] = average
+        average = calcul_average(UE_info[UE])
+        UE_info[UE]["Average"] = average
 
 #rajouter bonus sport (afficher UE + calculer bonus + ajouter bonus a chaque note)             
                 
-
 """
             if class_notes[i].text != "Moyenne matière :" :    #évite de prendre en compte les notes inexistantes du à des absences
                 note = class_notes[i].text

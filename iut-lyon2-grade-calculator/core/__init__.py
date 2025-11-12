@@ -1,0 +1,1 @@
+from .calculs import calcul_average
