@@ -10,4 +10,4 @@ class Result(ctk.CTkScrollableFrame):
         self.show_grades()
 
     def show_grades(self):
-        content = collect_grades()
+        UE_info = collect_grades()
