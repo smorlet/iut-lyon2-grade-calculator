@@ -1,7 +1,7 @@
 from .driver_setup import driver
 from selenium.webdriver.common.by import By
 from collections import defaultdict
-from core import calcul_average
+from core import calcul_average, calcul_bonus, add_bonus
 
 def collect_grades():
 
@@ -13,6 +13,8 @@ def collect_grades():
         }),
         "_meta": defaultdict(lambda: None)
     }
+
+    bonus = None
 
     titles = driver.find_elements(By.XPATH, "//div[@class='libelle-ue']/span")
     for no, title in enumerate(titles, start=1) :
@@ -32,7 +34,7 @@ def collect_grades():
                 coefficient = extract_coefficient(coefficients[i].text)
 
                 if "sport" in subject.lower():
-                    bonus = extract_bonus(grade)
+                    bonus = calcul_bonus(grade)
 
                 UE_info["UE"][UE]["Subjects"][subject]["Grade"] = grade
                 UE_info["UE"][UE]["Subjects"][subject]["Coefficient"] = coefficient
@@ -40,12 +42,9 @@ def collect_grades():
         average = calcul_average(UE_info["UE"][UE])
         UE_info["UE"][UE]["Average"] = average
 
-    try:
-        for UE in UE_info["UE"]:
-            UE_info["UE"][UE]["Average"] += bonus
+    if bonus :
+        add_bonus(bonus, UE_info["UE"])
         UE_info["_meta"]["Bonus"] = bonus
-    except NameError:
-        pass
     
     return UE_info
          
@@ -63,14 +62,3 @@ def extract_grade(text):
 def extract_coefficient(text):
     coefficient = text.replace("coefficient :", "").replace(",",".").strip()
     return float(coefficient)
-
-def extract_bonus(grade):
-    match grade :
-        case _ if grade > 17:
-            return 0.5
-        case _ if grade > 14:
-            return 0.45
-        case _ if grade > 10:
-            return round((grade - 10)*0.1,2)
-        case _ :
-            return None

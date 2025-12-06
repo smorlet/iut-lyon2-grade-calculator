@@ -1,1 +1,1 @@
-from .calculs import calcul_average
+from .calculs import calcul_average, calcul_bonus, add_bonus

@@ -15,5 +15,17 @@ def calcul_average(UE_grades):
     average = round(total_grade/total_coefficient, 2)
     return average
 
-def bonus_sport():
-    pass
+def calcul_bonus(grade):
+    match grade :
+        case _ if grade > 17:
+            return 0.5
+        case _ if grade > 14:
+            return 0.45
+        case _ if grade > 10:
+            return round((grade - 10)*0.1,2)
+        case _ :
+            return 0
+        
+def add_bonus(bonus, UE_grades):
+    for UE in UE_grades:
+        UE_grades[UE]["Average"] += bonus
