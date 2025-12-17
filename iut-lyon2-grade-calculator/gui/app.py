@@ -8,8 +8,8 @@ class App(ctk.CTk) :
         super().__init__()
 
         self.title("Calcul moyenne IUT Lumière Lyon 2")
-        self.geometry("900x600")
-        self.minsize(900,600)
+        self.geometry("1000x600")
+        self.minsize(1000,600)
         
         self.current_frame = Login(self)
         self.current_frame.pack(pady=30, padx=40, fill="both", expand=True)

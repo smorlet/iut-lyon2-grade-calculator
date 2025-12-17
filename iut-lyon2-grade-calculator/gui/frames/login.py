@@ -1,6 +1,6 @@
 import customtkinter as ctk
-from gui.styles import font_text
-from selenium_part import connection_works, path_connection, collect_grades
+from gui.styles import font_text, font_tilte1
+from selenium_part import connection_works, path_connection
 from .result import Result
 
 class Login(ctk.CTkFrame):
@@ -8,17 +8,17 @@ class Login(ctk.CTkFrame):
     def __init__(self, root):
         super().__init__(root)
         
-        headline = ctk.CTkLabel(self, text = "Bienvenue", font=("Arial",34,"bold"))
+        headline = ctk.CTkLabel(self, text = "Bienvenue", font=font_tilte1)
         subhead = ctk.CTkLabel(self, text = "Veuillez saisir vos informations pour accéder à vos moyennes", font=font_text)
-        notabene = ctk.CTkLabel(self, text = "Les moyennes affichées prennent en compte les coefficients, et le bonus sport s'il y'en a un.", font=("Arial",16,"italic"))
-        connect_button = ctk.CTkButton(self, text = "Connexion", font=("Arial",18), width=180, height = 40, command=lambda:self.try_connexion(root))
+        notabene = ctk.CTkLabel(self, text = "Les moyennes affichées prennent en compte les coefficients, et le bonus sport s'il y'en a un.", font=font_text + ("italic",))
+        connect_button = ctk.CTkButton(self, text = "Connexion", font=font_text, width=120, height = 40, corner_radius=10, command=lambda:self.try_connexion(root))
         self.feedback = ctk.CTkLabel(self, text="", font=font_text)
         self.username_field = ctk.CTkEntry(self, placeholder_text= "Nom d'utilisateur", width=400, height = 40)
         self.password_field = ctk.CTkEntry(self, placeholder_text= "Mot de passe", width=400, height = 40, show="*")
         self.display_button = ctk.CTkButton(self, text="Afficher", font=font_text,  width=100, height=30, corner_radius=10,command=lambda:self.toggle_visibility())
 
         
-        headline.pack(pady=(70,0),padx=(0,274))
+        headline.pack(pady=(70,0),padx=(0,263))
         subhead.pack() 
         self.username_field.pack(pady=(30,30))
         self.password_field.pack(padx=0)
