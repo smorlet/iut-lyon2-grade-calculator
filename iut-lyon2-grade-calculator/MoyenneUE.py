@@ -306,8 +306,7 @@ def path_connexion():
     except TimeoutException:
          return True    
      
-    return False
-
+ 
 #récupération et calcul des notes
 def collect_grades() :
     

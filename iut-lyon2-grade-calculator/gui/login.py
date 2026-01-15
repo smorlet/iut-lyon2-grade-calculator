@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from gui.styles import font_text, font_tilte1
 from selenium_part import connection_works, path_connection
-from .result import Result
+#from gui.result import Result
 
 class Login(ctk.CTkFrame):
 
@@ -11,7 +11,7 @@ class Login(ctk.CTkFrame):
         headline = ctk.CTkLabel(self, text = "Bienvenue", font=font_tilte1)
         subhead = ctk.CTkLabel(self, text = "Veuillez saisir vos informations pour accéder à vos moyennes", font=font_text)
         notabene = ctk.CTkLabel(self, text = "Les moyennes affichées prennent en compte les coefficients, et le bonus sport s'il y'en a un.", font=font_text + ("italic",))
-        connect_button = ctk.CTkButton(self, text = "Connexion", font=font_text, width=120, height = 40, corner_radius=10, command=lambda:self.try_connexion(root))
+        connect_button = ctk.CTkButton(self, text = "Connexion", font=font_text, width=120, height = 40, corner_radius=10, command=lambda:self.try_connection(root))
         self.feedback = ctk.CTkLabel(self, text="", font=font_text)
         self.username_field = ctk.CTkEntry(self, placeholder_text= "Nom d'utilisateur", width=400, height = 40)
         self.password_field = ctk.CTkEntry(self, placeholder_text= "Mot de passe", width=400, height = 40, show="*")
@@ -42,7 +42,7 @@ class Login(ctk.CTkFrame):
             self.password_field.configure(show="*")  
             self.display_button.configure(text="Afficher")
     
-    def try_connexion(self, root):
+    def try_connection(self, root):
         self.feedback.configure(text="Chargement...", text_color="white")
         root.update_idletasks()
         status_from_conn = False
@@ -60,7 +60,6 @@ class Login(ctk.CTkFrame):
             case "invalid psw":
                 if status_from_conn :
                     self.wrong_password[self.username_field.get()] = self.password_field.get()
-                    print(self.wrong_password)
                 self.feedback.configure(text="Nom d'utilisateur et mot de passe non valide. Entrez de nouveau vos informations d'utilisateur.", text_color="red")
                 self.password_field.delete(0,"end")
                     
@@ -88,8 +87,6 @@ class Login(ctk.CTkFrame):
     def show_averages(self, status, root):
         if path_connection(status):
             root.unbind('<Return>')
-            
-            self.master.show_frame(Result(self.master))
-
+            self.master.show_frame("result")
         else :
             self.feedback.configure(text="Désolé, nous n'avons pas pu accéder à vos notes. Veuillez relancer réessayer ultérieurement.", text_color="grey")

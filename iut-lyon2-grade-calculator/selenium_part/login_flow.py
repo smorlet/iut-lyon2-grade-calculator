@@ -61,3 +61,8 @@ def path_connection(status):
         return False    
      
     return True
+
+def back_to_connection():
+    driver.get("https://iut-extranet.univ-lyon2.fr")
+    WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "application_profile_icon"))).click()
+    WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "brcd-menu__item"))).click()
