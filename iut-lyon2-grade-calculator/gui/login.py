@@ -7,6 +7,7 @@ class Login(ctk.CTkFrame):
 
     def __init__(self, root):
         super().__init__(root)
+        self.root = root
         
         headline = ctk.CTkLabel(self, text = "Bienvenue", font=font_tilte1)
         subhead = ctk.CTkLabel(self, text = "Veuillez saisir vos informations pour accéder à vos moyennes", font=font_text)
@@ -87,6 +88,6 @@ class Login(ctk.CTkFrame):
     def show_averages(self, status, root):
         if path_connection(status):
             root.unbind('<Return>')
-            self.master.show_frame("result")
+            self.root.show_frame("result")
         else :
             self.feedback.configure(text="Désolé, nous n'avons pas pu accéder à vos notes. Veuillez relancer réessayer ultérieurement.", text_color="grey")

@@ -7,6 +7,7 @@ class Result(ctk.CTkScrollableFrame):
 
     def __init__(self, root):
         super().__init__(root)
+        self.root = root
 
         self.semesters = 1
         self.show_grades()
@@ -34,4 +35,4 @@ class Result(ctk.CTkScrollableFrame):
 
     def reconnection(self):
         back_to_connection()
-        self.master.show_frame("login")
+        self.root.show_frame("login")
