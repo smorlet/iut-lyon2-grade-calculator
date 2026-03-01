@@ -61,4 +61,8 @@ def extract_grade(text):
 
 def extract_coefficient(text):
     coefficient = text.replace("coefficient :", "").replace(",",".").strip()
-    return float(coefficient)
+    try:
+        coefficient = float(coefficient)
+    except ValueError:
+        coefficient = 1.0
+    return coefficient
