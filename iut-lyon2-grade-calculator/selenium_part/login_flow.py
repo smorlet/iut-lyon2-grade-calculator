@@ -41,7 +41,7 @@ def path_connection(status):
         try :
             WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "btnContinue"))).click()
         except TimeoutException:
-            driver.get("https://iut-extranet.univ-lyon2.fr")
+            driver.get("https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi")
             return False
     
     try:
@@ -51,18 +51,16 @@ def path_connection(status):
             WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "0-header"))).click()
             WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "web_bookmark_card_0"))).click()
         except TimeoutException:
-            driver.get("https://iut-extranet.univ-lyon2.fr")
+            driver.get("https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi")
             return False 
 
     try :
         WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "MainContent_accesrapidesAccueil_rptAccesRapides_HyperLink1_1"))).click()
     except TimeoutException:
-        driver.get("https://iut-extranet.univ-lyon2.fr")
+        driver.get("https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi")
         return False    
      
     return True
 
 def back_to_connection():
-    driver.get("https://iut-extranet.univ-lyon2.fr")
-    WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "application_profile_icon"))).click()
-    WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "brcd-menu__item"))).click()
+    driver.get("https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi")
