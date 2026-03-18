@@ -27,7 +27,10 @@ class Result(ctk.CTkScrollableFrame):
                     subject = ctk.CTkLabel(self, text = f"{subject} : {UE_info["UE"][UE]["Subjects"][subject]["Grade"]}", font=font_text)
                     subject.pack(anchor="w", padx=30)
 
-                average = ctk.CTkLabel(self, text = f"Moyenne : {UE_info["UE"][UE]["Average"]}", font=font_text + ("bold",))
+                if "sport" in UE_info["UE"][UE]["Title"].lower():
+                    average = ctk.CTkLabel(self, text = f"Bonus sport : +{UE_info["_meta"]["Bonus"]}", font=font_text + ("bold",))
+                else :
+                    average = ctk.CTkLabel(self, text = f"Moyenne : {UE_info["UE"][UE]["Average"]}", font=font_text + ("bold",))
             else:
                 average = ctk.CTkLabel(self, text = "Moyenne : Aucune note disponible", font=font_text + ("bold",))
 

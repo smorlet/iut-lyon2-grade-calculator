@@ -25,16 +25,17 @@ def collect_grades():
         grades = driver.find_elements(By.XPATH, f'//span[contains(text(), "{UE_info["UE"][UE]["Title"]}")]/ancestor::div[@class="libelle-ue"]/following-sibling::div[@class="pt-2"][1]//span[contains(text(), "Moyenne matière")]')
         subjects = driver.find_elements(By.XPATH, f'//span[contains(text(), "{UE_info["UE"][UE]["Title"]}")]/ancestor::div[@class="libelle-ue"]/following-sibling::div[@class="pt-2"]//div[@class="row p-1 bg-dark text-white ms-0 me-0"]//div[contains(@class, "col-md")]/span')
         coefficients = driver.find_elements(By.XPATH, f'//span[contains(text(), "{UE_info["UE"][UE]["Title"]}")]/ancestor::div[@class="libelle-ue"]/following-sibling::div[@class="pt-2"]//div[@class="row p-1 bg-dark text-white ms-0 me-0"]//div[contains(@class, "col-md-2")]//small[contains(text(), "coefficient")]')
-
+        
+        if "sport" in UE_info["UE"][UE]["Title"].lower():
+            grade = extract_grade(grades[0].text)
+            bonus = calcul_bonus(grade)
+            
         for i in range(len(grades)):
             
             grade = extract_grade(grades[i].text)
             if grade is not None:
                 subject = rename_subject(subjects[i].text)
                 coefficient = extract_coefficient(coefficients[i].text)
-
-                if "sport" in subject.lower():
-                    bonus = calcul_bonus(grade)
 
                 UE_info["UE"][UE]["Subjects"][subject]["Grade"] = grade
                 UE_info["UE"][UE]["Subjects"][subject]["Coefficient"] = coefficient
