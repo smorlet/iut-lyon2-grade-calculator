@@ -18,10 +18,13 @@ class App(ctk.CTk) :
         if self.current_frame is not None:
             self.current_frame.destroy()
 
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)        
+        
         match frame:
             case "login":
                 self.current_frame = Login(self)
             case "result":
                 self.current_frame = Result(self)
 
-        self.current_frame.pack(pady=30, padx=40, fill="both", expand=True)
+        self.current_frame.grid(row=0, column=0, pady=30, padx=40, sticky="nsew")
