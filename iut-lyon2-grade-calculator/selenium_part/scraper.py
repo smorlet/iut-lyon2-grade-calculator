@@ -1,4 +1,4 @@
-from .driver_setup import driver
+from selenium_part import driver_setup as ds
 from selenium.webdriver.common.by import By
 from collections import defaultdict
 from core import calcul_average, calcul_bonus, add_bonus
@@ -16,15 +16,15 @@ def collect_grades():
 
     bonus = None
 
-    titles = driver.find_elements(By.XPATH, "//div[@class='libelle-ue']/span")
+    titles = ds.driver.find_elements(By.XPATH, "//div[@class='libelle-ue']/span")
     for no, title in enumerate(titles, start=1) :
         UE_info["UE"][no]["Title"] = title.text
 
     for UE in UE_info["UE"]:
 
-        grades = driver.find_elements(By.XPATH, f'//span[contains(text(), "{UE_info["UE"][UE]["Title"]}")]/ancestor::div[@class="libelle-ue"]/following-sibling::div[@class="pt-2"][1]//span[contains(text(), "Moyenne matière")]')
-        subjects = driver.find_elements(By.XPATH, f'//span[contains(text(), "{UE_info["UE"][UE]["Title"]}")]/ancestor::div[@class="libelle-ue"]/following-sibling::div[@class="pt-2"]//div[@class="row p-1 bg-dark text-white ms-0 me-0"]//div[contains(@class, "col-md")]/span')
-        coefficients = driver.find_elements(By.XPATH, f'//span[contains(text(), "{UE_info["UE"][UE]["Title"]}")]/ancestor::div[@class="libelle-ue"]/following-sibling::div[@class="pt-2"]//div[@class="row p-1 bg-dark text-white ms-0 me-0"]//div[contains(@class, "col-md-2")]//small[contains(text(), "coefficient")]')
+        grades = ds.driver.find_elements(By.XPATH, f'//span[contains(text(), "{UE_info["UE"][UE]["Title"]}")]/ancestor::div[@class="libelle-ue"]/following-sibling::div[@class="pt-2"][1]//span[contains(text(), "Moyenne matière")]')
+        subjects = ds.driver.find_elements(By.XPATH, f'//span[contains(text(), "{UE_info["UE"][UE]["Title"]}")]/ancestor::div[@class="libelle-ue"]/following-sibling::div[@class="pt-2"]//div[@class="row p-1 bg-dark text-white ms-0 me-0"]//div[contains(@class, "col-md")]/span')
+        coefficients = ds.driver.find_elements(By.XPATH, f'//span[contains(text(), "{UE_info["UE"][UE]["Title"]}")]/ancestor::div[@class="libelle-ue"]/following-sibling::div[@class="pt-2"]//div[@class="row p-1 bg-dark text-white ms-0 me-0"]//div[contains(@class, "col-md-2")]//small[contains(text(), "coefficient")]')
         
         if "sport" in UE_info["UE"][UE]["Title"].lower():
             grade = extract_grade(grades[0].text)

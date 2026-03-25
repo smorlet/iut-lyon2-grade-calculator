@@ -1,5 +1,5 @@
-from .driver_setup import driver
 from selenium.webdriver.common.by import By
+from selenium_part import driver_setup as ds
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
@@ -19,16 +19,16 @@ def connection_works(u_field, p_field) :
     username = u_field.get()
     password = p_field.get()
 
-    username_field_html = driver.find_element(By.ID,"username")
+    username_field_html = ds.driver.find_element(By.ID,"username")
     username_field_html.send_keys(username)
-    password_field_html = driver.find_element(By.ID,"password")
+    password_field_html = ds.driver.find_element(By.ID,"password")
     password_field_html.send_keys(password)
 
-    driver.find_element(By.ID, "btnSubmit_6").click()
+    ds.driver.find_element(By.ID, "btnSubmit_6").click()
     
     try:
-        WebDriverWait(driver, 5).until(lambda d: d.execute_script("return document.readyState") == "complete")
-        key = driver.current_url
+        WebDriverWait(ds.driver, 5).until(lambda d: d.execute_script("return document.readyState") == "complete")
+        key = ds.driver.current_url
 
     except TimeoutException:
         key = "error"
@@ -39,28 +39,25 @@ def path_connection(status):
 
     if status == "valid psw but other sess":
         try :
-            WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "btnContinue"))).click()
+            WebDriverWait(ds.driver, 2).until(EC.element_to_be_clickable((By.ID, "btnContinue"))).click()
         except TimeoutException:
-            driver.get("https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi")
+            ds.driver.get("https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi")
             return False
     
     try:
-        WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "web_bookmark_card_0"))).click()
+        WebDriverWait(ds.driver, 2).until(EC.element_to_be_clickable((By.ID, "web_bookmark_card_0"))).click()
     except TimeoutException:
         try:
-            WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "0-header"))).click()
-            WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "web_bookmark_card_0"))).click()
+            WebDriverWait(ds.driver, 2).until(EC.element_to_be_clickable((By.ID, "0-header"))).click()
+            WebDriverWait(ds.driver, 2).until(EC.element_to_be_clickable((By.ID, "web_bookmark_card_0"))).click()
         except TimeoutException:
-            driver.get("https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi")
+            ds.driver.get("https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi")
             return False 
 
     try :
-        WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.ID, "MainContent_accesrapidesAccueil_rptAccesRapides_HyperLink1_1"))).click()
+        WebDriverWait(ds.driver, 2).until(EC.element_to_be_clickable((By.ID, "MainContent_accesrapidesAccueil_rptAccesRapides_HyperLink1_1"))).click()
     except TimeoutException:
-        driver.get("https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi")
+        ds.driver.get("https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi")
         return False    
      
     return True
-
-def back_to_connection():
-    driver.get("https://iut-extranet.univ-lyon2.fr/dana-na/auth/url_MJ55eorq301ZSVoH/welcome.cgi")

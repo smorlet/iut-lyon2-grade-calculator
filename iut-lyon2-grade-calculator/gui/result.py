@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from selenium_part import collect_grades, back_to_connection
+from selenium_part import collect_grades, reset_driver
 from gui.styles import font_text, font_title2, font_title3
 #from gui.login import Login
 
@@ -37,5 +37,5 @@ class Result(ctk.CTkScrollableFrame):
             average.pack(anchor="w", padx=30, pady=(15, 0))
 
     def reconnection(self):
-        back_to_connection()
+        reset_driver()
         self.root.show_frame("login")
